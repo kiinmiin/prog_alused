@@ -107,7 +107,12 @@ def remove_vowels(original_string: str) -> str:
     print(remove_vowels("hklmn")) => hklmn
     print(remove_vowels("aauuiii")) => ""
     """
-    # Your code goes here
+    remove_vowels = ""
+    vowels = ["a", "e", "i", "o", "u", "õ", "ä", "ö", "ü"]
+    for letter in original_string:
+        if letter not in vowels:
+            remove_vowels = remove_vowels + letter
+    return remove_vowels
 
 
 if __name__ == '__main__':
