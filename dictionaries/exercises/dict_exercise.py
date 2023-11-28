@@ -52,8 +52,11 @@ def remove_sixes(six_dict: dict) -> dict:
     :param six_dict: dictionary to be modified.
     :return: dict without values that are dividable by six.
     """
-    # your code goes here
-
+    six_new_dict = {}
+    for key, value in six_dict.items():
+        if value % 6 != 0:
+            six_new_dict[key] = value
+    return six_new_dict
 
 def exchange_keys_and_values(exchange_dict: dict) -> dict:
     """
@@ -64,7 +67,10 @@ def exchange_keys_and_values(exchange_dict: dict) -> dict:
     :param exchange_dict: dictionary to be modified.
     :return dictionary where values and keys have been exchanged.
     """
-    # your code goes here
+    swapped_dict = {}
+    for key, value in exchange_dict.items():
+        swapped_dict[value] = key
+    return swapped_dict
 
 
 def count_symbol_appearances(stringy: str) -> dict:
@@ -76,8 +82,13 @@ def count_symbol_appearances(stringy: str) -> dict:
     :param stringy: string to be processed.
     :return: dictionary with symbol counts.
     """
-    # your code goes here
-
+    symbol_ct_dict = {}
+    for letter in stringy:
+        if letter in symbol_ct_dict:
+            symbol_ct_dict[letter] += 1
+        else:
+            symbol_ct_dict[letter] = 1
+    return symbol_ct_dict
 
 def organise_by_first_symbol(strings: list) -> dict:
     """
@@ -89,4 +100,11 @@ def organise_by_first_symbol(strings: list) -> dict:
     :param strings: list of strings.
     :return: dict with starting symbol and corresponding words in order of appearance.
     """
-    # your code goes here
+    result = {}
+    for string in strings:
+        symbol = string[0]
+        if symbol in result:
+            result[symbol].append(string)
+        else:
+            result[symbol] = [string]
+    return result    
