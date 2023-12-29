@@ -1,5 +1,6 @@
 """File operations."""
 import csv
+import os
 
 def read_file_contents(filename: str) -> str:
     """
@@ -104,6 +105,12 @@ def write_lines_to_file(filename: str, lines: list) -> None:
     :param lines: List of string to write to the file.
     :return: None
     """
+    with open(filename, "w") as f:
+        for line in lines:
+            f.write(line)
+            if line != lines[-1] or line.endswith('\n'):
+                f.write('\n')
+    return None
     pass
 
 
@@ -128,6 +135,11 @@ def write_csv_file(filename: str, data: list) -> None:
     :param data: List of lists to write to the file.
     :return: None
     """
+    with open(filename, 'w', newline='') as csv_file:
+        csv_writer = csv.writer(csv_file, delimiter= ',')
+        for row in data:
+            csv_writer.writerow(row)
+    return None
     pass
 
 
@@ -176,4 +188,28 @@ def merge_dates_and_towns_into_csv(dates_filename: str, towns_filename: str, csv
     :param csv_output_filename: Output CSV-file with names, towns and dates.
     :return: None
     """
+    dates_dict = {}
+    with open(dates_filename, 'r') as dates_file:
+        lines = dates_file.readlines()
+        for line in lines:
+            name, date = line.strip().split(':')
+            dates_dict[name] = date
+    towns_dict = {}
+    with open(towns_filename, 'r') as towns_file:
+        lines = towns_file.readlines()
+        for line in lines:
+            name, town = line.strip().split(':')
+            towns_dict[name] = town
+    with open(csv_output_filename, 'w', newline='') as csv_output_file:
+        writer = csv.writer(csv_output_file)
+        writer.writerow(['name', 'town', 'date'])
+        for name in dates_dict.keys():
+            date = dates_dict[name]
+            town = towns_dict.get(name,'-')
+            writer.writerow([name, town, date])
+        for name in towns_dict.keys():
+            if name not in dates_dict:
+                town = towns_dict[name]
+                writer.writerow([name, town, '-'])
+    return None
     pass
